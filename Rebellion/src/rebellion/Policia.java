@@ -21,8 +21,9 @@ public class Policia {
         this.numFil=numFil;
     }
     
-    private void crearPosAleay(){
-        
+    private void crearPosAleat(){
+        int posx=(int) Math.floor(Math.random() * this.numFil);
+        int posy=(int) Math.floor(Math.random() * this.numCol);
     }
     
     private void llenarRango(){
