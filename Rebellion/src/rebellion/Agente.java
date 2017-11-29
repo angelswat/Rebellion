@@ -6,20 +6,34 @@
 package rebellion;
 
 /**
- *
- * @author Usuario
+ * @author Angel Encalada
+ * @param La clase Agente define las variables que tomaran los civiles.
  */
-public class Agente {
-    private double perjuicioPercibido;
-    private double agravio;
-    private int legitimidad;
-    private int num_pol;
-    private int num_agentes;
-    private double aversionR;
-    private int estado;
-    private double probDetEst;
-    private double riesgoN;
 
+//Definicion de metodos de la clase Agente
+public class Agente {
+    //Perjucio percibido al momento de nacer, es una valor random.
+    private double perjuicioPercibido;
+    //El agravio es un valor determinado con el perjucio percibido y la
+    //legitimidad del gobierno.
+    private double agravio;
+    //La legitimidad es un valor que define el usuario al iniciar la simulacion.
+    private int legitimidad;
+    //El numero de policias que tiene el universo.
+    private int num_pol;
+    //El numero de agentes o civiles que tiene el universo.
+    private int num_agentes;
+    //Es un valor aleatorio dado al correr la simulacion.
+    private double aversionR;
+    //El estado define si el agente esta activo o inactivo.
+    private int estado;
+    //La probabilidad de ser detenido segun el radio de vision.
+    private double probDetEst;
+    //Define cuan arriesgado es un civil dentro del universo.
+    private double riesgoN;
+    //Fin de la definicion de metodos
+    
+    //Inicio del constructor de la clase Agente
     public Agente(int legitimidad, int num_pol, int num_agentes) {
         this.perjuicioPercibido = Math.random();
         this.agravio = calcularAgravio();
@@ -32,22 +46,105 @@ public class Agente {
         this.riesgoN = calcularRiesgo();
         verificarEstado();
     }
-
-    private double calcularAgravio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    //Fin del constructor de la clase
+    
+    //
+    public double calcularAgravio() {
+        double agravio=perjuicioPercibido*(1-legitimidad);
+        return agravio;
     }
 
-    private double calcularProbDetEst(int num_pol, int num_agentes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double calcularProbDetEst(int C, int A) {
+        double probabilidad=1-Math.exp(-2.3*Math.round(C/A));
+        return probabilidad;
     }
 
     private double calcularRiesgo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double riesgoNeto=this.aversionR*this.probDetEst;
+        return riesgoNeto;
     }
 
     private void verificarEstado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.agravio-this.riesgoN>0.1){
+            this.estado=1;
+        }
+        else{
+            this.estado=0;
+        }
     }
+
+    public double getPerjuicioPercibido() {
+        return perjuicioPercibido;
+    }
+
+    public void setPerjuicioPercibido(double perjuicioPercibido) {
+        this.perjuicioPercibido = perjuicioPercibido;
+    }
+
+    public double getAgravio() {
+        return agravio;
+    }
+
+    public void setAgravio(double agravio) {
+        this.agravio = agravio;
+    }
+
+    public int getLegitimidad() {
+        return legitimidad;
+    }
+
+    public void setLegitimidad(int legitimidad) {
+        this.legitimidad = legitimidad;
+    }
+
+    public int getNum_pol() {
+        return num_pol;
+    }
+
+    public void setNum_pol(int num_pol) {
+        this.num_pol = num_pol;
+    }
+
+    public int getNum_agentes() {
+        return num_agentes;
+    }
+
+    public void setNum_agentes(int num_agentes) {
+        this.num_agentes = num_agentes;
+    }
+
+    public double getAversionR() {
+        return aversionR;
+    }
+
+    public void setAversionR(double aversionR) {
+        this.aversionR = aversionR;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public double getProbDetEst() {
+        return probDetEst;
+    }
+
+    public void setProbDetEst(double probDetEst) {
+        this.probDetEst = probDetEst;
+    }
+
+    public double getRiesgoN() {
+        return riesgoN;
+    }
+
+    public void setRiesgoN(double riesgoN) {
+        this.riesgoN = riesgoN;
+    }
+    
     
     
 }
