@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package rebellion;
-
+import java.util.Random;
 /**
  * @author Angel Encalada
  * @param La clase Agente define las variables que tomaran los civiles.
@@ -18,7 +18,7 @@ public class Agente extends Persona {
     //legitimidad del gobierno.
     private double agravio;
     //La legitimidad es un valor que define el usuario al iniciar la simulacion.
-    private int legitimidad;
+    private double legitimidad=Rebellion.legitimidad;
     //El numero de policias que tiene el universo.
     private int num_pol;
     //El numero de agentes o civiles que tiene el universo.
@@ -26,20 +26,21 @@ public class Agente extends Persona {
     //Es un valor aleatorio dado al correr la simulacion.
     private double aversionR;
     //El estado define si el agente esta activo o inactivo.
-    private int estado;
+    private static int estado;
     //La probabilidad de ser detenido segun el radio de vision.
     private double probDetEst;
     //Define cuan arriesgado es un civil dentro del universo.
     private double riesgoN;
-    private Posicion posAgente;
+    
+    private static Posicion posAgente;
     //Fin de la definicion de metodos
     
     //Inicio del constructor de la clase Agente
-    public Agente(int legitimidad, int num_pol, int num_agentes) {
+    public Agente(double legitimidad, int num_pol, int num_agentes) {
         super();
         this.perjuicioPercibido = Math.random();
         this.agravio = calcularAgravio();
-        this.legitimidad = legitimidad;
+        //this.legitimidad = legitimidad;
         this.num_pol = num_pol;
         this.num_agentes = num_agentes;
         this.aversionR = aversionR;
@@ -82,18 +83,6 @@ public class Agente extends Persona {
         }
     }
 
-    public void crearPosAleat(){
-        int posx=(int) Math.floor(Math.random() * super.numFil);
-        int posy=(int) Math.floor(Math.random() * super.numCol);
-        this.posAgente=new Posicion(posx,posy);
-    }
-    
-    /*
-    public Agente agente(double perjuicioPercibido, double agravio, double aversionR, int estado, double probDetEst, double riesgoN, Posicion posAgente) {
-        //Agente a=new Agente(perjuicioPercibido,);
-        return a;
-    }
-   */
     
     public double getPerjuicioPercibido(){
         return perjuicioPercibido;
@@ -111,11 +100,11 @@ public class Agente extends Persona {
         this.agravio = agravio;
     }
 
-    public int getLegitimidad() {
+    public double getLegitimidad() {
         return legitimidad;
     }
 
-    public void setLegitimidad(int legitimidad) {
+    public void setLegitimidad(double legitimidad) {
         this.legitimidad = legitimidad;
     }
 
@@ -167,6 +156,11 @@ public class Agente extends Persona {
         this.riesgoN = riesgoN;
     }
     
+    public Posicion getPosAgente(){
+        return posAgente;
+    }
     
-    
+    public void setPosAgente(Posicion posAgente){
+        this.posAgente=posAgente;
+    }
 }
