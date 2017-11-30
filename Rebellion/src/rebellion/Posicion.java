@@ -33,6 +33,9 @@ public class Posicion {
     public void setPosy(int posy) {
         this.posy = posy;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "(" + posx + "," + posy + ")";
+    }
 }
