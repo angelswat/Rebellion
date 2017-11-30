@@ -48,6 +48,13 @@ public class Agente extends Persona {
         this.riesgoN = calcularRiesgo();
         verificarEstado();
     }
+
+    public Agente(int estado,Posicion posAgente) {
+        this.estado = estado;
+        this.posAgente = posAgente;
+    }
+
+    
     //Fin del constructor de la clase
     
     //
@@ -81,9 +88,14 @@ public class Agente extends Persona {
         this.posAgente=new Posicion(posx,posy);
     }
     
-   
+    /*
+    public Agente agente(double perjuicioPercibido, double agravio, double aversionR, int estado, double probDetEst, double riesgoN, Posicion posAgente) {
+        //Agente a=new Agente(perjuicioPercibido,);
+        return a;
+    }
+   */
     
-    public double getPerjuicioPercibido() {
+    public double getPerjuicioPercibido(){
         return perjuicioPercibido;
     }
 
