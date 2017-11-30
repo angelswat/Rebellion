@@ -22,16 +22,7 @@ public class Universo{
     private static ArrayList<Agente> agenttes=new ArrayList<>();
     private static ArrayList<Policia> cops=new ArrayList<>();
     private static ArrayList<Posicion> vacios=new ArrayList<>();
-    
-    /*
-    public Universo(int numFil, int numCol, int agentes, int policias){
-        this.numFil=numFil;
-        this.numCol=numCol;
-        //this.agentes=agentes;
-        //this.policias=policias;
-    }
-    */
-    
+   
     public static void colocarPolicias(){
         System.out.println("Colocar policias");
         int posFila;
@@ -39,7 +30,7 @@ public class Universo{
         boolean existe=false;
         Random r=new Random();
         do{
-            
+            existe=false;
             posFila=r.nextInt(numFil);
             posCol=r.nextInt(numCol);
             for (Posicion par:tablero){
@@ -65,7 +56,7 @@ public class Universo{
         boolean existe=false;
         Random r=new Random();
         do{
-            
+            existe=false;
             posFila=r.nextInt(numFil);
             posCol=r.nextInt(numCol);
             for (Posicion par:tablero){
@@ -79,9 +70,8 @@ public class Universo{
         Posicion coord=new Posicion(posFila,posCol);
         System.out.println(coord);
         tablero.add(coord);
-        Agente a=new Agente(1,coord);
+        Agente a=new Agente(0,coord);
         agenttes.add(a);
-
     }
     
    /*
@@ -138,10 +128,45 @@ public class Universo{
         
     }
     
-    public static boolean identificarAgVision(){
-        //testear rebeldes por rango de vision
-        return true;
+    public static void calcularVision(Posicion h){
+        ArrayList <Posicion> puntos=new ArrayList<>();
+        int hor=h.getPosx()-Rebellion.radio;
+        int ver=h.getPosy()-Rebellion.radio;
+        if (hor>=0 && ver>=0){
+            for (int i=hor;i<=2*Rebellion.radio;i++){
+                for (int j=ver;j<=2*Rebellion.radio;j++){
+                    if(hor+i<numFil && ver+j<numCol){
+                        if (!puntos.contains(h)){
+                        puntos.add(h);
+                        }
+                    }
+                }
+            }
+        }
+        else if(hor<0 && ver>=0){
+                for(int l=0;l<=h.getPosx()+Rebellion.radio;l++){
+                for (int j=ver;j<=2*Rebellion.radio;j++){
+                    if(hor+l<numFil && ver+j<numCol){
+                        if (!puntos.contains(h)){
+                        puntos.add(h);
+                        }
+                    }
+                }
+            }
+        }
+        else if(hor>=0 && ver<0){
+                for(int l=hor;l<=2*Rebellion.radio;l++){
+                for (int j=0;j<=h.getPosy()+Rebellion.radio;j++){
+                    if(hor+l<numFil && ver+j<numCol){
+                        if (!puntos.contains(h)){
+                        puntos.add(h);
+                        }
+                    }
+                }
+            }
+        }
     }
+    
 
     public static int contarEncarcelados(){
         int encarcelados=0;
