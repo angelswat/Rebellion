@@ -5,6 +5,7 @@
  */
 package rebellion;
 import java.util.Random;
+import java.util.ArrayList;
 /**
  *
  * @author Usuario
@@ -14,6 +15,7 @@ public class Universo {
     private int numCol;
     private int agentes;
     private int policias;
+    private ArrayList<Posicion> tablero=new ArrayList<>();
     
     public Universo(){
         numFil=10;
@@ -28,9 +30,45 @@ public class Universo {
     }
 
     public void colocarPolicias(){
-        //para colocar policias random
+        int posFila;
+        int posCol;
+        boolean existe=false;
+        Random r=new Random();
+        do{
+            posFila=r.nextInt(this.numFil-1);
+            posCol=r.nextInt(this.numCol-1);
+            for (Posicion par:tablero){
+                if (par.getPosx()==posFila && par.getPosy()==posCol){
+                    existe=true;
+                    break;
+                }
+            }
+        }
+        while(existe==true);
+        Posicion coord=new Posicion(posFila,posCol);
+        tablero.add(coord);
     }
     
+    public void colocarAgentes(){
+        int posFila;
+        int posCol;
+        boolean existe=false;
+        Random r=new Random();
+        do{
+            posFila=r.nextInt(this.numFil-1);
+            posCol=r.nextInt(this.numCol-1);
+            for (Posicion par:tablero){
+                if (par.getPosx()==posFila && par.getPosy()==posCol){
+                    existe=true;
+                    break;
+                }
+            }
+        }
+        while(existe==true);
+        Posicion coord=new Posicion(posFila,posCol);
+        tablero.add(coord);
+    }
+   
     public int indentificarRebeldes(){
         //para identificar rebeldes
         return 1;
