@@ -9,21 +9,21 @@ import java.util.ArrayList;
  *
  * @author Angel Encalada
  */
-public class Policia {
-    private ArrayList<Posicion> vision;
-    private int numFil;
-    private int numCol;
+public class Policia extends Persona {
     private Posicion posPolicia;
     private int rango;
     
     public Policia(int numFil, int numCol, int rango){
+        super();
         this.numCol=numCol;
         this.numFil=numFil;
     }
     
-    private void crearPosAleat(){
-        int posx=(int) Math.floor(Math.random() * this.numFil);
-        int posy=(int) Math.floor(Math.random() * this.numCol);
+    @Override
+    public void crearPosAleat(){
+        int posx=(int) Math.floor(Math.random() * super.numFil);
+        int posy=(int) Math.floor(Math.random() * super.numCol);
+        this.posPolicia=new Posicion(posx,posy);
     }
     
     private void llenarRango(){
