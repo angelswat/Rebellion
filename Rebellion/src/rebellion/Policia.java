@@ -19,6 +19,10 @@ public class Policia extends Persona {
         this.numFil=numFil;
     }
     
+    public Policia(Posicion posPolicia){
+        this.posPolicia=posPolicia;
+    }
+    
     @Override
     public void crearPosAleat(){
         int posx=(int) Math.floor(Math.random() * super.numFil);
