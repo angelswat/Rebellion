@@ -98,10 +98,11 @@ public class Rebellion {
     }
     
     public static void salida(){
-        int i=0;
-        int j=0;
         int k=0;
         do{
+            int i=0;
+            int j=0;
+            
             do{
             Universo.colocarPolicias();
             i++;
@@ -112,8 +113,9 @@ public class Rebellion {
             j++;
             }while(j<=Math.round(denAg*numFil*numCol));
             System.out.println("Termino agentes");
-            Universo.imprimirUniverso();
-            Universo.generarCsv(k);
+            //Universo.imprimirUniverso();
+            //Universo.generarCsv(k);
+            System.out.println(k+" CORRIDA");
             Universo.encerarTablero();
             k++;
         }while(k<=maxTurno);
