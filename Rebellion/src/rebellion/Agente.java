@@ -26,7 +26,7 @@ public class Agente extends Persona {
     //Es un valor aleatorio dado al correr la simulacion.
     private double aversionR;
     //El estado define si el agente esta activo o inactivo.
-    private static int estado;
+    private static int estado=0;
     //La probabilidad de ser detenido segun el radio de vision.
     private double probDetEst;
     //Define cuan arriesgado es un civil dentro del universo.
@@ -37,23 +37,27 @@ public class Agente extends Persona {
     //Fin de la definicion de metodos
     
     //Inicio del constructor de la clase Agente
-    public Agente() {
+    public Agente(int estado, Posicion posAgente) {
         super();
         this.perjuicioPercibido = Math.random();
         this.agravio = calcularAgravio();
         this.aversionR = Math.random();
         this.estado = estado;
-        this.probDetEst = calcularProbDetEst(Universo.contarCops(posAgente),Universo.contarAgentes(posAgente));
+        this.posAgente=posAgente;
+       // this.probDetEst = calcularProbDetEst(Universo.contarCops(posAgente),Universo.contarAgentes(posAgente));
+        this.probDetEst = calcularProbDetEst(2,4);
         this.riesgoN = calcularRiesgo();
+        calcularAgravio();
         verificarEstado();
     }
-
+/*
     public Agente(int estado,Posicion posAgente) {
         this.estado = estado;
         this.posAgente = posAgente;
+        verificarEstado();
     }
     //Fin del constructor de la clase
-    
+    */
     //
     private double calcularAgravio() {
         double agravio=perjuicioPercibido*(1-legitimidad);
