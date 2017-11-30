@@ -7,10 +7,15 @@ package rebellion;
 import java.util.ArrayList;
 /**
  *
- * @author Usuario
+ * @author Angel Encalada
  */
 public abstract class Persona {
+    int numFil;
+    int numCol;
     private int radio;
     private ArrayList<Posicion> vision;
     
+    public void crearPosAleat(){
+        
+    }
 }
