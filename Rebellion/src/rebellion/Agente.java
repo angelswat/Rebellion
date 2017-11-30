@@ -20,9 +20,9 @@ public class Agente extends Persona {
     //La legitimidad es un valor que define el usuario al iniciar la simulacion.
     private double legitimidad=Rebellion.legitimidad;
     //El numero de policias que tiene el universo.
-    private int num_pol;
+    private double num_pol=Math.round(Rebellion.denPol*numFil*numCol);
     //El numero de agentes o civiles que tiene el universo.
-    private int num_agentes;
+    private double num_agentes=Math.round(Rebellion.denAg*numFil*numCol);;
     //Es un valor aleatorio dado al correr la simulacion.
     private double aversionR;
     //El estado define si el agente esta activo o inactivo.
@@ -32,18 +32,18 @@ public class Agente extends Persona {
     //Define cuan arriesgado es un civil dentro del universo.
     private double riesgoN;
     private static Posicion posAgente;
+    public final double K=2.3;
+    public final double LIMITE=0.1;
     //Fin de la definicion de metodos
     
     //Inicio del constructor de la clase Agente
-    public Agente(double legitimidad, int num_pol, int num_agentes) {
+    public Agente() {
         super();
         this.perjuicioPercibido = Math.random();
         this.agravio = calcularAgravio();
-        this.num_pol = num_pol;
-        this.num_agentes = num_agentes;
-        this.aversionR = aversionR;
+        this.aversionR = Math.random();
         this.estado = estado;
-        this.probDetEst = calcularProbDetEst(num_pol,num_agentes);
+        this.probDetEst = calcularProbDetEst(Universo.contarCops(posAgente),Universo.contarAgentes(posAgente));
         this.riesgoN = calcularRiesgo();
         verificarEstado();
     }
@@ -55,13 +55,13 @@ public class Agente extends Persona {
     //Fin del constructor de la clase
     
     //
-    public double calcularAgravio() {
+    private double calcularAgravio() {
         double agravio=perjuicioPercibido*(1-legitimidad);
         return agravio;
     }
 
-    public double calcularProbDetEst(int C, int A) {
-        double probabilidad=1-Math.exp(-2.3*Math.round(C/A));
+    private double calcularProbDetEst(int C, int A) {
+        double probabilidad=1-Math.exp(-K*Math.round(C/A));
         return probabilidad;
     }
 
@@ -70,11 +70,11 @@ public class Agente extends Persona {
         return riesgoNeto;
     }
 
-    private void verificarEstado() {
-        if (this.agravio-this.riesgoN>0.1){
+    public void verificarEstado() {
+        if (this.agravio-this.riesgoN>LIMITE){
             this.estado=1;
         }
-        else {
+        else if(this.agravio-this.riesgoN<=0.1){
             this.estado=0;
         }
     }
@@ -103,19 +103,19 @@ public class Agente extends Persona {
         this.legitimidad = legitimidad;
     }
 
-    public int getNum_pol() {
+    public double getNum_pol() {
         return num_pol;
     }
 
-    public void setNum_pol(int num_pol) {
+    public void setNum_pol(double num_pol) {
         this.num_pol = num_pol;
     }
 
-    public int getNum_agentes() {
+    public double getNum_agentes() {
         return num_agentes;
     }
 
-    public void setNum_agentes(int num_agentes) {
+    public void setNum_agentes(double num_agentes) {
         this.num_agentes = num_agentes;
     }
 
@@ -158,4 +158,11 @@ public class Agente extends Persona {
     public void setPosAgente(Posicion posAgente){
         this.posAgente=posAgente;
     }
+
+    @Override
+    public String toString() {
+        return "Agente{" + "perjuicioPercibido=" + perjuicioPercibido + ", agravio=" + agravio + ", legitimidad=" + legitimidad + ", num_pol=" + num_pol + ", num_agentes=" + num_agentes + ", aversionR=" + aversionR + ", probDetEst=" + probDetEst + ", riesgoN=" + riesgoN + '}';
+    }
+    
+    
 }
