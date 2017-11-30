@@ -31,7 +31,6 @@ public class Agente extends Persona {
     private double probDetEst;
     //Define cuan arriesgado es un civil dentro del universo.
     private double riesgoN;
-    
     private static Posicion posAgente;
     //Fin de la definicion de metodos
     
@@ -40,7 +39,6 @@ public class Agente extends Persona {
         super();
         this.perjuicioPercibido = Math.random();
         this.agravio = calcularAgravio();
-        //this.legitimidad = legitimidad;
         this.num_pol = num_pol;
         this.num_agentes = num_agentes;
         this.aversionR = aversionR;
@@ -54,8 +52,6 @@ public class Agente extends Persona {
         this.estado = estado;
         this.posAgente = posAgente;
     }
-
-    
     //Fin del constructor de la clase
     
     //
@@ -78,11 +74,10 @@ public class Agente extends Persona {
         if (this.agravio-this.riesgoN>0.1){
             this.estado=1;
         }
-        else{
+        else {
             this.estado=0;
         }
     }
-
     
     public double getPerjuicioPercibido(){
         return perjuicioPercibido;
