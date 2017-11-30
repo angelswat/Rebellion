@@ -25,7 +25,7 @@ public class Universo{
     private static ArrayList<Posicion> encarcelados=new ArrayList<>();
    
     public static void colocarPolicias(){
-        System.out.println("Colocar policias");
+        //System.out.println("Colocar policias");
         int posFila;
         int posCol;
         boolean existe=false;
@@ -36,7 +36,7 @@ public class Universo{
             posCol=r.nextInt(numCol);
             for (Posicion par:tablero){
                 if (par.getPosx()==posFila && par.getPosy()==posCol){
-                    System.out.println(par);
+                    //System.out.println(par);
                     existe=true;
                     break;
                 }
@@ -44,14 +44,13 @@ public class Universo{
         }
         while(existe==true);
         Posicion coord=new Posicion(posFila,posCol);
-        System.out.println(coord);
+        //System.out.println(coord);
         tablero.add(coord);
         cops.add(coord);
-        System.out.println(cops);
     }
     
     public static void colocarAgentes(){
-        System.out.println("Colocar agentes");
+        //System.out.println("Colocar agentes");
         int posFila;
         int posCol;
         boolean existe=false;
@@ -62,20 +61,19 @@ public class Universo{
             posCol=r.nextInt(numCol);
             for (Posicion par:tablero){
                 if (par.getPosx()==posFila && par.getPosy()==posCol){
-                    System.out.println(par);
+                    //System.out.println(par);
                     existe=true;
                     break;
                 }
             }
         }while(existe==true);
         Posicion coord=new Posicion(posFila,posCol);
-        System.out.println(coord);
+        //System.out.println(coord);
         tablero.add(coord);
         Agente a=new Agente(0,coord);
-        a.verificarEstado();
-        a.setEstado(a.getEstado());
+        //a.verificarEstado();
+        //a.setEstado(a.getEstado());
         agenttes.add(a);
-        System.out.println(agenttes);
     }
     
    /*
@@ -94,20 +92,21 @@ public class Universo{
             ArrayList<Posicion> coord=calcularVision(cop);
             Random r=new Random();
             boolean existe=false;
-            System.out.println("ingreso al bucle");
+            //System.out.println("ingreso al bucle");
             do{
                 existe=false;
+                if (!coord.isEmpty()){
                 int pos=r.nextInt(coord.size());
                 Posicion p=coord.get(pos);
-                System.out.println(p);
                 for (Agente a:agenttes){
                     if (a.getPosAgente().getPosx()==p.getPosx()&&a.getPosAgente().getPosy()==p.getPosy()){
                         if(a.getEstado()==1){
                             encarcelados.add(a.getPosAgente());
+                            a.setEstado(2);
                             existe=false;
                     }
                 }
-            }
+            }}
         }while(existe==true);
     }
     }
@@ -117,27 +116,26 @@ public class Universo{
         for (int i=0;i<numFil;i++){
             for (int j=0;j<numCol;j++){
                 Posicion p=new Posicion(i,j);
-                String obj=" ";
-                for (Agente ag:agenttes){
-                    if(!ag.getPosAgente().equals(p)&&!cops.contains(p)){
-                        obj="O";
+                String obj="";
+                if (verVacios()){
+                    obj="O";
+                }
+                for (Posicion cop:cops){
+                    if(cop.getPosx()==i&&cop.getPosy()==j){
+                        obj="P";
                     }
                 }
-                if (cops.contains(p)){
-                    obj="P";
-                }
                 for (Agente ag:agenttes){
-                    if (ag.getPosAgente().equals(p)){
+                    if (ag.getPosAgente().getPosx()==i&&ag.getPosAgente().getPosy()==j){
                         if(ag.getEstado()==1){
                             obj="A";
                         }
                         if (ag.getEstado()==0){
                             obj="I";
-                        }
-                        for(Posicion enc:encarcelados){
-                            if(enc.getPosx()==ag.getPosAgente().getPosx()&&enc.getPosy()==ag.getPosAgente().getPosy()){
-                                obj="E";
-                            }
+                        }}
+                for(Posicion enc:encarcelados){
+                        if(enc.getPosx()==ag.getPosAgente().getPosx()&&enc.getPosy()==ag.getPosAgente().getPosy()){
+                        obj="E";
                         }
                     }
                 }
@@ -285,6 +283,31 @@ public class Universo{
         agenttes.clear();
         cops.clear();
         tablero.clear();
+    }
+    
+    public static boolean verVacios(){
+        for (int i=0;i<numFil;i++){
+            for (int j=0;j<numCol;j++){
+                boolean bandera=true;
+                for(Agente ag:agenttes){
+                    if(ag.getPosAgente().getPosx()==i&&ag.getPosAgente().getPosy()==j){
+                        bandera=false;
+                    }
+                }
+                for(Posicion cop:cops){
+                    if (cop.getPosx()==i&cop.getPosy()==j){
+                        bandera=false;
+                    }
+                }
+                for (Posicion enc:encarcelados){
+                    if(enc.getPosx()==i&enc.getPosy()==j){
+                        bandera=false;
+                    }
+                }
+                if (bandera){
+                    return true;
+                }
+            }}return false;
     }
     
     public static void generarCsv(int Turno){
