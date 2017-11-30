@@ -10,14 +10,14 @@ import java.util.Scanner;
  * @author Angel Encalada
  */
 public class Rebellion {
-    static double denPol=0.2;
-    static double denAg=0.6;
-    static int numFil=5;
-    static int numCol=5;
-    static int radio=2;
-    static int maxTurno=5;
-    static int movimiento=1;
-    static double legitimidad=0.8;
+    static double denPol;
+    static double denAg;
+    static int numFil;
+    static int numCol;
+    static int radio;
+    static int maxTurno;
+    static int movimiento;
+    static double legitimidad;
     
     /**
      * @param args the command line arguments
@@ -99,10 +99,8 @@ public class Rebellion {
     
     public static void salida(){
         int k=0;
-        do{
-            int i=0;
-            int j=0;
-            
+        int i=0;
+        int j=0;
             do{
             Universo.colocarPolicias();
             i++;
@@ -113,11 +111,21 @@ public class Rebellion {
             j++;
             }while(j<=Math.round(denAg*numFil*numCol));
             System.out.println("Termino agentes");
-            //Universo.imprimirUniverso();
-            //Universo.generarCsv(k);
+        do{
+            if (movimiento==1){
+            Universo.moverseAg();
+                System.out.println("me movi ag");
+            Universo.moverseCop();
+                System.out.println("me movi cop");
+            }
+            Universo.encarcelar();
+            System.out.println("presoo");
+            Universo.imprimirUniverso();
+            System.out.println("imprimi");
+            Universo.generarCsv(k);
             System.out.println(k+" CORRIDA");
-            Universo.encerarTablero();
-            k++;
+            
+            k++; 
         }while(k<=maxTurno);
     }
 }
