@@ -5,6 +5,7 @@
  */
 package rebellion;
 import java.util.ArrayList;
+import java.util.Random;
 /**
  *
  * @author Angel Encalada
@@ -21,13 +22,6 @@ public class Policia extends Persona {
     
     public Policia(Posicion posPolicia){
         this.posPolicia=posPolicia;
-    }
-    
-    @Override
-    public void crearPosAleat(){
-        int posx=(int) Math.floor(Math.random() * super.numFil);
-        int posy=(int) Math.floor(Math.random() * super.numCol);
-        this.posPolicia=new Posicion(posx,posy);
     }
     
     private void llenarRango(){
