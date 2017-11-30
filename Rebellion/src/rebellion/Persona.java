@@ -10,12 +10,9 @@ import java.util.ArrayList;
  * @author Angel Encalada
  */
 public abstract class Persona {
-    int numFil;
-    int numCol;
-    private int radio;
+    int numFil=Rebellion.numFil;
+    int numCol=Rebellion.numCol;
+    private int radio=Rebellion.radio;
     private ArrayList<Posicion> vision;
     
-    public void crearPosAleat(){
-        
-    }
 }
