@@ -45,7 +45,7 @@ public class Agente extends Persona {
         this.estado = estado;
         this.posAgente=posAgente;
        // this.probDetEst = calcularProbDetEst(Universo.contarCops(posAgente),Universo.contarAgentes(posAgente));
-        this.probDetEst = calcularProbDetEst(2,4);
+        //this.probDetEst = calcularProbDetEst(2,4);
         this.riesgoN = calcularRiesgo();
         calcularAgravio();
         verificarEstado();
