@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 package rebellion;
-
+import java.util.Collections;
+import java.util.Comparator;
 /**
  *
  * @author Angel Encalada
  */
-public class Posicion {
+public class Posicion implements Comparable{
     private int posx;
     private int posy;
     
@@ -37,5 +38,14 @@ public class Posicion {
     @Override
     public String toString() {
         return "(" + posx + "," + posy + ")";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Posicion){
+            Posicion par=(Posicion)o;
+            return par.getPosx()-this.getPosx();
+        }
+        return -1000;
     }
 }
