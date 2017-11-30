@@ -11,13 +11,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 /**
  *
- * @author Usuario
+ * @author Angel Encalada
  */
 public class Universo{
     private static int numFil=Rebellion.numFil;
     private static int numCol=Rebellion.numCol;
-    private static double agentes=Math.round(Rebellion.denAg*100);
-    private static double policias=Math.round(Rebellion.denPol*100);
+    private static double agentes=Math.round(Rebellion.denAg*numFil*numCol);
+    private static double policias=Math.round(Rebellion.denPol*numFil*numCol);
     private static ArrayList<Posicion> tablero=new ArrayList<>();
     private static ArrayList<Agente> agenttes=new ArrayList<>();
     private static ArrayList<Posicion> cops=new ArrayList<>();
@@ -47,6 +47,7 @@ public class Universo{
         System.out.println(coord);
         tablero.add(coord);
         cops.add(coord);
+        System.out.println(cops);
     }
     
     public static void colocarAgentes(){
@@ -71,7 +72,10 @@ public class Universo{
         System.out.println(coord);
         tablero.add(coord);
         Agente a=new Agente(0,coord);
+        a.verificarEstado();
+        a.setEstado(a.getEstado());
         agenttes.add(a);
+        System.out.println(agenttes);
     }
     
    /*
@@ -85,15 +89,30 @@ public class Universo{
     }
     */
     
-    public static boolean encarcelar(Agente agente){
-        if(agente.getEstado()==1){
-            return true;
-        }
-        return false;
+    public static void encarcelar(){
+        for(Posicion cop:cops){
+            ArrayList<Posicion> coord=calcularVision(cop);
+            Random r=new Random();
+            boolean existe=false;
+            System.out.println("ingreso al bucle");
+            do{
+                existe=false;
+                int pos=r.nextInt(coord.size());
+                Posicion p=coord.get(pos);
+                System.out.println(p);
+                for (Agente a:agenttes){
+                    if (a.getPosAgente().getPosx()==p.getPosx()&&a.getPosAgente().getPosy()==p.getPosy()){
+                        if(a.getEstado()==1){
+                            encarcelados.add(a.getPosAgente());
+                            existe=false;
+                    }
+                }
+            }
+        }while(existe==true);
+    }
     }
     
     public static void imprimirUniverso(){
-        //Collections.sort(tablero);
         String cadena="";
         for (int i=0;i<numFil;i++){
             for (int j=0;j<numCol;j++){
@@ -115,8 +134,10 @@ public class Universo{
                         if (ag.getEstado()==0){
                             obj="I";
                         }
-                        if (ag.getEstado()==2){
-                            obj="E";
+                        for(Posicion enc:encarcelados){
+                            if(enc.getPosx()==ag.getPosAgente().getPosx()&&enc.getPosy()==ag.getPosAgente().getPosy()){
+                                obj="E";
+                            }
                         }
                     }
                 }
@@ -229,6 +250,7 @@ public class Universo{
         for (Agente ag:agenttes){
             ArrayList<Posicion> coords=calcularVision(ag.getPosAgente());
             Random r=new Random();
+            if (!coords.isEmpty()){
             int f=r.nextInt(coords.size());
             Posicion a=coords.get(f);
             if(vacios.contains(a)){
@@ -237,21 +259,25 @@ public class Universo{
                 agenttes.remove(ag);
                 vacios.remove(a);
             }
-        }
+        }}
     }
     
     public static void moverseCop(){
+        Random r=new Random();
         for (Posicion cop:cops){
+            //System.out.println("hola1");
             ArrayList<Posicion> campo=calcularVision(cop);
-            Random r=new Random();
+            if (!campo.isEmpty()){
             int f=r.nextInt(campo.size());
             Posicion a=campo.get(f);
+                //System.out.println(a);
             if(vacios.contains(a)){
+                //System.out.println("hola2");
                 cops.add(a);
                 cops.remove(cop);
                 vacios.remove(a);
             }
-        }
+        }}
     }
     
     
@@ -273,9 +299,11 @@ public class Universo{
         fw.append(Integer.toString(numPas)).append(delimitador);
         fw.append(Integer.toString(numAct)).append(delimitador);
         fw.append(Integer.toString(numEnc));
+        fw.close();
         }catch(IOException e){
             e.printStackTrace();
         }
+        
         
     }
     
@@ -310,4 +338,45 @@ public class Universo{
     public void setPolicias(double policias) {
         this.policias = policias;
     }
+
+    public static ArrayList<Posicion> getTablero() {
+        return tablero;
+    }
+
+    public static void setTablero(ArrayList<Posicion> tablero) {
+        Universo.tablero = tablero;
+    }
+
+    public static ArrayList<Agente> getAgenttes() {
+        return agenttes;
+    }
+
+    public static void setAgenttes(ArrayList<Agente> agenttes) {
+        Universo.agenttes = agenttes;
+    }
+
+    public static ArrayList<Posicion> getCops() {
+        return cops;
+    }
+
+    public static void setCops(ArrayList<Posicion> cops) {
+        Universo.cops = cops;
+    }
+
+    public static ArrayList<Posicion> getVacios() {
+        return vacios;
+    }
+
+    public static void setVacios(ArrayList<Posicion> vacios) {
+        Universo.vacios = vacios;
+    }
+
+    public static ArrayList<Posicion> getEncarcelados() {
+        return encarcelados;
+    }
+
+    public static void setEncarcelados(ArrayList<Posicion> encarcelados) {
+        Universo.encarcelados = encarcelados;
+    }
+    
 }
