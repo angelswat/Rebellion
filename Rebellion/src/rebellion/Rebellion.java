@@ -25,13 +25,20 @@ public class Rebellion {
         ingresarDatos();
         int i=0;
         int j=0;
+        int k=0;
         do{
+            do{
             Universo.colocarPolicias();
             i++;
-        }while(i<=Math.round(denPol*100));
-        do{
-            
-        }while(j<=Math.round(denAg*100));
+            }while(i<=Math.round(denPol*100));
+            do{
+            Universo.colocarAgentes();
+            }while(j<=Math.round(denAg*100));
+            Universo.imprimirUniverso();
+            Universo.generarCsv(maxTurno, numFil, numFil, numFil); //corregir valores
+            Universo.encerarTablero();
+            k++;
+        }while(k<=maxTurno);
     }
     
     public static void ingresarDatos(){
