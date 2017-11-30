@@ -20,8 +20,9 @@ public class Universo{
     private static double policias=Math.round(Rebellion.denPol*100);
     private static ArrayList<Posicion> tablero=new ArrayList<>();
     private static ArrayList<Agente> agenttes=new ArrayList<>();
-    private static ArrayList<Policia> cops=new ArrayList<>();
+    private static ArrayList<Posicion> cops=new ArrayList<>();
     private static ArrayList<Posicion> vacios=new ArrayList<>();
+    private static ArrayList<Posicion> encarcelados=new ArrayList<>();
    
     public static void colocarPolicias(){
         System.out.println("Colocar policias");
@@ -45,8 +46,7 @@ public class Universo{
         Posicion coord=new Posicion(posFila,posCol);
         System.out.println(coord);
         tablero.add(coord);
-        Policia a=new Policia(coord);
-        cops.add(a);
+        cops.add(coord);
     }
     
     public static void colocarAgentes(){
@@ -99,9 +99,10 @@ public class Universo{
             for (int j=0;j<numCol;j++){
                 Posicion p=new Posicion(i,j);
                 String obj=" ";
-                
-                if(!agenttes.contains(p)&&!cops.contains(p)){
-                    obj="O";
+                for (Agente ag:agenttes){
+                    if(!ag.getPosAgente().equals(p)&&!cops.contains(p)){
+                        obj="O";
+                    }
                 }
                 if (cops.contains(p)){
                     obj="P";
@@ -128,7 +129,7 @@ public class Universo{
         
     }
     
-    public static void calcularVision(Posicion h){
+    public static ArrayList calcularVision(Posicion h){
         ArrayList <Posicion> puntos=new ArrayList<>();
         int hor=h.getPosx()-Rebellion.radio;
         int ver=h.getPosy()-Rebellion.radio;
@@ -165,9 +166,9 @@ public class Universo{
                 }
             }
         }
+        return puntos;
     }
     
-
     public static int contarEncarcelados(){
         int encarcelados=0;
         for (Agente ag:agenttes){
@@ -197,6 +198,62 @@ public class Universo{
         }
         return inactivos;
     }
+    
+    public static int contarCops(Posicion w){
+        int contador=0;
+        ArrayList <Posicion> lista=calcularVision(w);
+        for (Posicion par:lista){
+            for (Posicion cop:cops){
+                if(par.getPosx()==cop.getPosx()&&par.getPosy()==cop.getPosy()){
+                    contador+=1;
+                }
+            }
+        }
+        return contador;
+    }
+    
+    public static int contarAgentes(Posicion w){
+        int contador=0;
+        ArrayList <Posicion> lista=calcularVision(w);
+        for (Posicion par:lista){
+            for (Agente ag:agenttes){
+                if(par.getPosx()==ag.getPosAgente().getPosx()&&par.getPosy()==ag.getPosAgente().getPosy()){
+                    contador+=1;
+                }
+            }
+        }
+        return contador;
+    }
+    
+    public static void moverseAg(){
+        for (Agente ag:agenttes){
+            ArrayList<Posicion> coords=calcularVision(ag.getPosAgente());
+            Random r=new Random();
+            int f=r.nextInt(coords.size());
+            Posicion a=coords.get(f);
+            if(vacios.contains(a)){
+                Agente a1=new Agente(ag.getEstado(),a);
+                agenttes.add(a1);
+                agenttes.remove(ag);
+                vacios.remove(a);
+            }
+        }
+    }
+    
+    public static void moverseCop(){
+        for (Posicion cop:cops){
+            ArrayList<Posicion> campo=calcularVision(cop);
+            Random r=new Random();
+            int f=r.nextInt(campo.size());
+            Posicion a=campo.get(f);
+            if(vacios.contains(a)){
+                cops.add(a);
+                cops.remove(cop);
+                vacios.remove(a);
+            }
+        }
+    }
+    
     
     public static void encerarTablero(){
         agenttes.clear();
