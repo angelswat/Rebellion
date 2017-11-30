@@ -89,7 +89,7 @@ public class Universo {
         return false;
     }
     
-    public void imprimirUniverso(){
+    public static void imprimirUniverso(){
         //for (int i=0;i<this.numFil;i++){
           //  for (int j=0;j<this.numCol;j++){
                 for (Posicion coord:tablero){
@@ -107,6 +107,12 @@ public class Universo {
     public int contarEncarcelados(){
         //contabilizar presos para aniadir al csv
         return 1;
+    }
+    
+    public static void encerarTablero(){
+        agenttes.clear();
+        cops.clear();
+        tablero.clear();
     }
     
     
