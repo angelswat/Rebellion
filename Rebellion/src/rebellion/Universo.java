@@ -7,6 +7,8 @@ package rebellion;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  *
  * @author Usuario
@@ -115,12 +117,20 @@ public class Universo {
         tablero.clear();
     }
     
-    
-    
-    
-    
-    
-    
+    public static void generarCsv(int Turno,int numPas, int numAct, int numEnc){
+        String nomArchivo="Archivo"+Turno+".csv";
+        String delimitador=",";
+        try {  
+        FileWriter fw=new FileWriter(nomArchivo);
+        fw.append(Integer.toString(Turno)).append(delimitador);
+        fw.append(Integer.toString(numPas)).append(delimitador);
+        fw.append(Integer.toString(numAct)).append(delimitador);
+        fw.append(Integer.toString(numEnc));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        
+    }
     
     public int getNumFil() {
         return numFil;
