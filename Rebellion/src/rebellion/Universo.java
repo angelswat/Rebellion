@@ -13,33 +13,38 @@ import java.io.IOException;
  *
  * @author Usuario
  */
-public class Universo {
-    private static int numFil;
-    private static int numCol;
-    private static int agentes;
-    private static int policias;
+public class Universo{
+    private static int numFil=Rebellion.numFil;
+    private static int numCol=Rebellion.numCol;
+    private static double agentes=Math.round(Rebellion.denAg*100);
+    private static double policias=Math.round(Rebellion.denPol*100);
     private static ArrayList<Posicion> tablero=new ArrayList<>();
     private static ArrayList<Agente> agenttes=new ArrayList<>();
     private static ArrayList<Policia> cops=new ArrayList<>();
+    private static ArrayList<Posicion> vacios=new ArrayList<>();
     
+    /*
     public Universo(int numFil, int numCol, int agentes, int policias){
         this.numFil=numFil;
         this.numCol=numCol;
-        this.agentes=agentes;
-        this.policias=policias;
+        //this.agentes=agentes;
+        //this.policias=policias;
     }
-
+    */
+    
     public static void colocarPolicias(){
+        System.out.println("Colocar policias");
         int posFila;
         int posCol;
         boolean existe=false;
-        int i=0;
         Random r=new Random();
         do{
-            posFila=r.nextInt(numFil-1);
-            posCol=r.nextInt(numCol-1);
+            
+            posFila=r.nextInt(numFil);
+            posCol=r.nextInt(numCol);
             for (Posicion par:tablero){
                 if (par.getPosx()==posFila && par.getPosy()==posCol){
+                    System.out.println(par);
                     existe=true;
                     break;
                 }
@@ -47,33 +52,38 @@ public class Universo {
         }
         while(existe==true);
         Posicion coord=new Posicion(posFila,posCol);
+        System.out.println(coord);
         tablero.add(coord);
         Policia a=new Policia(coord);
         cops.add(a);
     }
     
     public static void colocarAgentes(){
+        System.out.println("Colocar agentes");
         int posFila;
         int posCol;
         boolean existe=false;
         Random r=new Random();
         do{
-            posFila=r.nextInt(numFil-1);
-            posCol=r.nextInt(numCol-1);
+            
+            posFila=r.nextInt(numFil);
+            posCol=r.nextInt(numCol);
             for (Posicion par:tablero){
                 if (par.getPosx()==posFila && par.getPosy()==posCol){
+                    System.out.println(par);
                     existe=true;
                     break;
                 }
             }
-        }
-        while(existe==true);
+        }while(existe==true);
         Posicion coord=new Posicion(posFila,posCol);
+        System.out.println(coord);
         tablero.add(coord);
         Agente a=new Agente(1,coord);
         agenttes.add(a);
 
     }
+    
    /*
     public int indentificarRebeldes(Agente agente){
         for (Agente par:coordenadas){
@@ -84,7 +94,8 @@ public class Universo {
         return 1;
     }
     */
-    public boolean encarcelar(Agente agente){
+    
+    public static boolean encarcelar(Agente agente){
         if(agente.getEstado()==1){
             return true;
         }
@@ -92,23 +103,74 @@ public class Universo {
     }
     
     public static void imprimirUniverso(){
-        //for (int i=0;i<this.numFil;i++){
-          //  for (int j=0;j<this.numCol;j++){
-                for (Posicion coord:tablero){
-                    System.out.println(coord);
+        //Collections.sort(tablero);
+        String cadena="";
+        for (int i=0;i<numFil;i++){
+            for (int j=0;j<numCol;j++){
+                Posicion p=new Posicion(i,j);
+                String obj=" ";
+                
+                if(!agenttes.contains(p)&&!cops.contains(p)){
+                    obj="O";
                 }
-            //}
-       // }
+                if (cops.contains(p)){
+                    obj="P";
+                }
+                for (Agente ag:agenttes){
+                    if (ag.getPosAgente().equals(p)){
+                        if(ag.getEstado()==1){
+                            obj="A";
+                        }
+                        if (ag.getEstado()==0){
+                            obj="I";
+                        }
+                        if (ag.getEstado()==2){
+                            obj="E";
+                        }
+                    }
+                }
+                cadena+=obj;
+                cadena+=" ";
+            }
+            System.out.println(cadena+"\n");
+            cadena="";
+        }
+        
     }
     
-    public boolean identificarAgVision(){
+    public static boolean identificarAgVision(){
         //testear rebeldes por rango de vision
         return true;
     }
 
-    public int contarEncarcelados(){
-        //contabilizar presos para aniadir al csv
-        return 1;
+    public static int contarEncarcelados(){
+        int encarcelados=0;
+        for (Agente ag:agenttes){
+            if (ag.getEstado()==2){
+                encarcelados++;
+            }
+        }
+        return encarcelados;
+    }
+    
+    public static int contarActivos(){
+        int activos=0;
+        for (Agente ag:agenttes){
+            if (ag.getEstado()==1){
+                activos++;
+            }
+        }
+        return activos;
+    }
+    
+    public static int contarInactivos(){
+        int inactivos=0;
+        for (Agente ag:agenttes){
+            if (ag.getEstado()==0){
+                inactivos++;
+            }
+        }
+        return inactivos;
     }
     
     public static void encerarTablero(){
@@ -117,7 +179,10 @@ public class Universo {
         tablero.clear();
     }
     
-    public static void generarCsv(int Turno,int numPas, int numAct, int numEnc){
+    public static void generarCsv(int Turno){
+        int numEnc=Universo.contarEncarcelados();
+        int numPas=Universo.contarInactivos();
+        int numAct=Universo.contarActivos();
         String nomArchivo="Archivo"+Turno+".csv";
         String delimitador=",";
         try {  
@@ -148,21 +213,19 @@ public class Universo {
         this.numCol = numCol;
     }
 
-    public int getAgentes() {
+    public double getAgentes() {
         return agentes;
     }
 
-    public void setAgentes(int agentes) {
+    public void setAgentes(double agentes) {
         this.agentes = agentes;
     }
 
-    public int getPolicias() {
+    public double getPolicias() {
         return policias;
     }
 
-    public void setPolicias(int policias) {
+    public void setPolicias(double policias) {
         this.policias = policias;
     }
-
-    
 }
