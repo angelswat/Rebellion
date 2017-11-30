@@ -105,25 +105,27 @@ public class Rebellion {
             Universo.colocarPolicias();
             i++;
             }while(i<=Math.round(denPol*numFil*numCol));
-            System.out.println("Termino policias");
+            //System.out.println("Termino policias");
             do{
             Universo.colocarAgentes();
             j++;
             }while(j<=Math.round(denAg*numFil*numCol));
-            System.out.println("Termino agentes");
+            //System.out.println("Termino agentes");
         do{
             if (movimiento==1){
             Universo.moverseAg();
-                System.out.println("me movi ag");
+                //System.out.println("me movi ag");
             Universo.moverseCop();
-                System.out.println("me movi cop");
+                //System.out.println("me movi cop");
             }
             Universo.encarcelar();
-            System.out.println("presoo");
+            //System.out.println("presoo");
             Universo.imprimirUniverso();
-            System.out.println("imprimi");
+            //System.out.println("imprimi");
             Universo.generarCsv(k);
+            System.out.println(Universo.contarActivos()+" "+Universo.contarInactivos()+" "+Universo.contarEncarcelados());
             System.out.println(k+" CORRIDA");
+            System.out.println("+++++++++++++++++++++++++++++++");
             
             k++; 
         }while(k<=maxTurno);
