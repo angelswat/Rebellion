@@ -11,7 +11,7 @@ package rebellion;
  */
 
 //Definicion de metodos de la clase Agente
-public class Agente {
+public class Agente extends Persona {
     //Perjucio percibido al momento de nacer, es una valor random.
     private double perjuicioPercibido;
     //El agravio es un valor determinado con el perjucio percibido y la
@@ -31,10 +31,12 @@ public class Agente {
     private double probDetEst;
     //Define cuan arriesgado es un civil dentro del universo.
     private double riesgoN;
+    private Posicion posAgente;
     //Fin de la definicion de metodos
     
     //Inicio del constructor de la clase Agente
     public Agente(int legitimidad, int num_pol, int num_agentes) {
+        super();
         this.perjuicioPercibido = Math.random();
         this.agravio = calcularAgravio();
         this.legitimidad = legitimidad;
@@ -73,6 +75,14 @@ public class Agente {
         }
     }
 
+    public void crearPosAleat(){
+        int posx=(int) Math.floor(Math.random() * super.numFil);
+        int posy=(int) Math.floor(Math.random() * super.numCol);
+        this.posAgente=new Posicion(posx,posy);
+    }
+    
+   
+    
     public double getPerjuicioPercibido() {
         return perjuicioPercibido;
     }
