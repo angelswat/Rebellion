@@ -19,7 +19,7 @@ public class Universo{
     private static double agentes=Math.round(Rebellion.denAg*numFil*numCol);
     private static double policias=Math.round(Rebellion.denPol*numFil*numCol);
     private static ArrayList<Posicion> tablero=new ArrayList<>();
-    private static ArrayList<Agente> agenttes=new ArrayList<>();
+    protected static ArrayList<Agente> agenttes=new ArrayList<>();
     private static ArrayList<Posicion> cops=new ArrayList<>();
     private static ArrayList<Posicion> vacios=new ArrayList<>();
     private static ArrayList<Posicion> encarcelados=new ArrayList<>();
@@ -70,22 +70,10 @@ public class Universo{
         Posicion coord=new Posicion(posFila,posCol);
         //System.out.println(coord);
         tablero.add(coord);
-        Agente a=new Agente(0,coord);
-        //a.verificarEstado();
-        //a.setEstado(a.getEstado());
+        Agente a=new Agente(0,coord,1,Math.random(),1,Math.random(),1);
+        a.setEstado(a.getEstado());
         agenttes.add(a);
     }
-    
-   /*
-    public int indentificarRebeldes(Agente agente){
-        for (Agente par:coordenadas){
-            //if (par instanceof Agente){
-                
-            //}
-        }
-        return 1;
-    }
-    */
     
     public static void encarcelar(){
         for(Posicion cop:cops){
@@ -252,7 +240,7 @@ public class Universo{
             int f=r.nextInt(coords.size());
             Posicion a=coords.get(f);
             if(vacios.contains(a)){
-                Agente a1=new Agente(ag.getEstado(),a);
+                Agente a1=new Agente(ag.getEstado(),a,ag.getProbDetEst(),ag.getPerjuicioPercibido(),ag.getAgravio(),ag.getAversionR(),ag.getRiesgoN());
                 agenttes.add(a1);
                 agenttes.remove(ag);
                 vacios.remove(a);
