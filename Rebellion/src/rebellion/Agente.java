@@ -18,37 +18,32 @@ public class Agente extends Persona {
     //legitimidad del gobierno.
     private double agravio;
     //La legitimidad es un valor que define el usuario al iniciar la simulacion.
-    private double legitimidad=Rebellion.legitimidad;
-    //El numero de policias que tiene el universo.
-    private double num_pol=Math.round(Rebellion.denPol*numFil*numCol);
-    //El numero de agentes o civiles que tiene el universo.
-    private double num_agentes=Math.round(Rebellion.denAg*numFil*numCol);;
+    private static double legitimidad=Rebellion.legitimidad;
     //Es un valor aleatorio dado al correr la simulacion.
     private double aversionR;
     //El estado define si el agente esta activo o inactivo.
-    private static int estado=0;
+    private int estado;
     //La probabilidad de ser detenido segun el radio de vision.
     private double probDetEst;
     //Define cuan arriesgado es un civil dentro del universo.
     private double riesgoN;
-    private static Posicion posAgente;
-    public final double K=2.3;
-    public final double LIMITE=0.1;
+    private Posicion posAgente;
+    public static final double K=2.3;
+    public static final double LIMITE=0.1;
     //Fin de la definicion de metodos
     
     //Inicio del constructor de la clase Agente
-    public Agente(int estado, Posicion posAgente) {
+    public Agente(int estado, Posicion posAgente,double probabilidad,double perjuicioPercibido,double agravio,double aversion,double riesgo) {
         super();
-        this.perjuicioPercibido = Math.random();
+        this.perjuicioPercibido=perjuicioPercibido=Math.random();
         this.agravio = calcularAgravio();
-        this.aversionR = Math.random();
+        this.aversionR = aversion;
         this.estado = estado;
-        this.posAgente=posAgente;
-       // this.probDetEst = calcularProbDetEst(Universo.contarCops(posAgente),Universo.contarAgentes(posAgente));
-        //this.probDetEst = calcularProbDetEst(2,4);
-        this.riesgoN = calcularRiesgo();
-        calcularAgravio();
         verificarEstado();
+        this.posAgente=posAgente;
+        this.probDetEst = probabilidad;
+        this.riesgoN = calcularRiesgo();
+        
     }
 /*
     public Agente(int estado,Posicion posAgente) {
@@ -59,17 +54,17 @@ public class Agente extends Persona {
     //Fin del constructor de la clase
     */
     //
-    private double calcularAgravio() {
+    protected double calcularAgravio() {
         double agravio=perjuicioPercibido*(1-legitimidad);
         return agravio;
     }
 
-    private double calcularProbDetEst(int C, int A) {
+    protected double calcularProbDetEst(int C, int A) {
         double probabilidad=1-Math.exp(-K*Math.round(C/A));
         return probabilidad;
     }
 
-    private double calcularRiesgo() {
+    protected double calcularRiesgo() {
         double riesgoNeto=this.aversionR*this.probDetEst;
         return riesgoNeto;
     }
@@ -106,23 +101,7 @@ public class Agente extends Persona {
     public void setLegitimidad(double legitimidad) {
         this.legitimidad = legitimidad;
     }
-
-    public double getNum_pol() {
-        return num_pol;
-    }
-
-    public void setNum_pol(double num_pol) {
-        this.num_pol = num_pol;
-    }
-
-    public double getNum_agentes() {
-        return num_agentes;
-    }
-
-    public void setNum_agentes(double num_agentes) {
-        this.num_agentes = num_agentes;
-    }
-
+    
     public double getAversionR() {
         return aversionR;
     }
@@ -165,8 +144,6 @@ public class Agente extends Persona {
 
     @Override
     public String toString() {
-        return "Agente{" + "perjuicioPercibido=" + perjuicioPercibido + ", agravio=" + agravio + ", legitimidad=" + legitimidad + ", num_pol=" + num_pol + ", num_agentes=" + num_agentes + ", aversionR=" + aversionR + ", probDetEst=" + probDetEst + ", riesgoN=" + riesgoN + '}';
+        return "Agente{" + "perjuicioPercibido=" + perjuicioPercibido + ", agravio=" + agravio + ", aversionR=" + aversionR + ", probDetEst=" + probDetEst + ", riesgoN=" + riesgoN + '}';
     }
-    
-    
 }
