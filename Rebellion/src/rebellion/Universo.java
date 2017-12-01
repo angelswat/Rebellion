@@ -6,24 +6,32 @@
 package rebellion;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.io.FileWriter;
 import java.io.IOException;
 /**
- *
  * @author Angel Encalada
+ * @param Gestionar el control de todo el universo.
  */
+
 public class Universo{
+    //Numero de filas del universo.
     private static int numFil=Rebellion.numFil;
+    //Numero de columnas del universo.
     private static int numCol=Rebellion.numCol;
-    private static double agentes=Math.round(Rebellion.denAg*numFil*numCol);
-    private static double policias=Math.round(Rebellion.denPol*numFil*numCol);
+    //Lista de coordenadas de todas las personas.
     private static ArrayList<Posicion> tablero=new ArrayList<>();
+    //Lista de coordenadas de los civiles en el universo.
     protected static ArrayList<Agente> agenttes=new ArrayList<>();
+    //Lista de coordenadas de los policias del universo.
     private static ArrayList<Posicion> cops=new ArrayList<>();
+    //Lista de coordenadas vacias dentro del universo.
     private static ArrayList<Posicion> vacios=new ArrayList<>();
+    //Lista de coordenadas de los encarcelados en el universo.
     private static ArrayList<Posicion> encarcelados=new ArrayList<>();
-   
+    
+   /**
+    * Metodo que busca una coordenada vacia y situa un policia.
+    */
     public static void colocarPolicias(){
         //System.out.println("Colocar policias");
         int posFila;
@@ -49,6 +57,9 @@ public class Universo{
         cops.add(coord);
     }
     
+    /**
+    * Metodo para buscar una coordenada vacia y colocar un agente o civil.
+    */
     public static void colocarAgentes(){
         //System.out.println("Colocar agentes");
         int posFila;
@@ -75,6 +86,9 @@ public class Universo{
         agenttes.add(a);
     }
     
+    /**
+    * Metodo para encarcelar civil cuando estos son activos.
+    */
     public static void encarcelar(){
         for(Posicion cop:cops){
             ArrayList<Posicion> coord=calcularVision(cop);
@@ -99,6 +113,9 @@ public class Universo{
     }
     }
     
+    /**
+    * Metodo para imprimir el universo representanco con letras los actores.
+    */
     public static void imprimirUniverso(){
         String cadena="";
         for (int i=0;i<numFil;i++){
@@ -133,9 +150,12 @@ public class Universo{
             System.out.println(cadena+"\n");
             cadena="";
         }
-        
     }
     
+    /**
+    * Metodo que genera las coordenadas del radio de vision de un agente o policia.
+    * @return Lista de coordenadas con el alcance del radio de vision.
+    */
     public static ArrayList calcularVision(Posicion h){
         ArrayList <Posicion> puntos=new ArrayList<>();
         int hor=h.getPosx()-Rebellion.radio;
@@ -176,6 +196,10 @@ public class Universo{
         return puntos;
     }
     
+    /**
+    * Metodo contador de civiles encarcelados en el universo.
+    * @return Numero de civiles encarcelados.
+    */
     public static int contarEncarcelados(){
         int encarcelados=0;
         for (Agente ag:agenttes){
@@ -186,6 +210,10 @@ public class Universo{
         return encarcelados;
     }
     
+    /**
+    * Metodo contador de los agentes activos, previos a ser encarcelados.
+    * @return Numero de agentes activos rebelandose.
+    */
     public static int contarActivos(){
         int activos=0;
         for (Agente ag:agenttes){
@@ -196,6 +224,10 @@ public class Universo{
         return activos;
     }
     
+    /**
+    * Metodo contador de civiles inactivos o que no se han rebelado aun.
+    * @return Numero de civiles pasivos, sin rebelar.
+    */
     public static int contarInactivos(){
         int inactivos=0;
         for (Agente ag:agenttes){
@@ -206,6 +238,10 @@ public class Universo{
         return inactivos;
     }
     
+    /**
+    * Metodo contador de policias por rango de vision, dada una coordenada.
+    * @return Numero de policias dentro de un rango de vision.
+    */
     public static int contarCops(Posicion w){
         int contador=0;
         ArrayList <Posicion> lista=calcularVision(w);
@@ -219,6 +255,10 @@ public class Universo{
         return contador;
     }
     
+    /**
+    * Metodo contador de los agentes que estan dentro de un radio de vision x.
+    * @return Numero de agentes dentro del rango de vision dado.
+    */
     public static int contarAgentes(Posicion w){
         int contador=0;
         ArrayList <Posicion> lista=calcularVision(w);
@@ -232,6 +272,9 @@ public class Universo{
         return contador;
     }
     
+    /**
+    * Metodo que permite moverse a los agentes dentro de su parche de vision.
+    */
     public static void moverseAg(){
         for (Agente ag:agenttes){
             ArrayList<Posicion> coords=calcularVision(ag.getPosAgente());
@@ -248,6 +291,9 @@ public class Universo{
         }}
     }
     
+    /**
+    * Metodo que permite moverse a los policias dentro de su parche de vision.
+    */
     public static void moverseCop(){
         Random r=new Random();
         for (Posicion cop:cops){
@@ -266,13 +312,10 @@ public class Universo{
         }}
     }
     
-    
-    public static void encerarTablero(){
-        agenttes.clear();
-        cops.clear();
-        tablero.clear();
-    }
-    
+    /**
+    * Metodo que comprueba si existen coordenadas vacias dentro del universo.
+    * @return Verdadero si existen, falso lo contrario.
+    */
     public static boolean verVacios(){
         for (int i=0;i<numFil;i++){
             for (int j=0;j<numCol;j++){
@@ -298,6 +341,10 @@ public class Universo{
             }}return false;
     }
     
+    /**
+    * Metodo generador de archivos .csv por cada corrida del programa.
+    * @return Un archivo .csv por cada corrida o turno simulado.
+    */
     public static void generarCsv(int Turno){
         int numEnc=Universo.contarEncarcelados();
         int numPas=Universo.contarInactivos();
@@ -314,10 +361,11 @@ public class Universo{
         }catch(IOException e){
             e.printStackTrace();
         }
-        
-        
     }
     
+    /**
+    * Metodos de setters y getters del contructor de la clase.
+    */
     public int getNumFil() {
         return numFil;
     }
@@ -332,22 +380,6 @@ public class Universo{
 
     public void setNumCol(int numCol) {
         this.numCol = numCol;
-    }
-
-    public double getAgentes() {
-        return agentes;
-    }
-
-    public void setAgentes(double agentes) {
-        this.agentes = agentes;
-    }
-
-    public double getPolicias() {
-        return policias;
-    }
-
-    public void setPolicias(double policias) {
-        this.policias = policias;
     }
 
     public static ArrayList<Posicion> getTablero() {
