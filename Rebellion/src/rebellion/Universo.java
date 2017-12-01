@@ -1,18 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Rebellion Agent Model. Noviembre, 2017.
+ * Copyright (c) 2017 Angel Encalada.
+ * Escuela Superior Politecnica del Litoral
+ * Todos los derechos reservados.
  */
+
 package rebellion;
 import java.util.Random;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
+
 /**
  * @author Angel Encalada
  * @param Gestionar el control de todo el universo.
  */
 
+//Inicio de la clase.
 public class Universo{
     //Numero de filas del universo.
     private static int numFil=Rebellion.numFil;
@@ -421,5 +425,5 @@ public class Universo{
     public static void setEncarcelados(ArrayList<Posicion> encarcelados) {
         Universo.encarcelados = encarcelados;
     }
-    
 }
+//Fin de la clase.
