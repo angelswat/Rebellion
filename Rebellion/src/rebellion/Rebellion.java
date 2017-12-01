@@ -102,6 +102,9 @@ public class Rebellion {
         int i=0;
         int j=0;
             do{
+            if(k>0){
+               iniVar(); 
+            }    
             Universo.colocarPolicias();
             i++;
             }while(i<=Math.round(denPol*numFil*numCol));
@@ -118,7 +121,8 @@ public class Rebellion {
             Universo.moverseCop();
                 //System.out.println("me movi cop");
             }
-            Universo.encarcelar();
+            if(k>0){
+            Universo.encarcelar();}
             //System.out.println("presoo");
             Universo.imprimirUniverso();
             //System.out.println("imprimi");
@@ -129,5 +133,14 @@ public class Rebellion {
             
             k++; 
         }while(k<=maxTurno);
+    }
+    
+    public static void iniVar(){
+        for (Agente ag:Universo.agenttes){
+            ag.verificarEstado();
+            ag.setAgravio(ag.calcularAgravio());
+            ag.setProbDetEst(ag.calcularProbDetEst(Universo.contarCops(ag.getPosAgente()),Universo.contarAgentes(ag.getPosAgente())));
+            ag.setRiesgoN(ag.calcularRiesgo());
+        }
     }
 }
