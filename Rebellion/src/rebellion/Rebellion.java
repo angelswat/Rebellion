@@ -1,26 +1,39 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Rebellion Agent Model. Noviembre, 2017.
+ * Copyright (c) 2017 Angel Encalada.
+ * Escuela Superior Politecnica del Litoral
+ * Todos los derechos reservados.
  */
+
 package rebellion;
 import java.util.Scanner;
+
 /**
- *
  * @author Angel Encalada
+ * @param Programa principal que se encarga de la simulacion del universo.
  */
+
+//Inicio de la clase.
 public class Rebellion {
+    //Densidad de los policias.
     static double denPol;
+    //Densidad de los agentes o civiles.
     static double denAg;
+    //Numero de filas del universo.
     static int numFil;
+    //Numero de columnas del universo.
     static int numCol;
+    //Radio de vision de los policias y agentes.
     static int radio;
+    //Maximo numero de corridas del programa.
     static int maxTurno;
+    //Indica si el universo se mueve o no, estatico o movil.
     static int movimiento;
+    //Legitimidad que posee el gobierno en el universo.
     static double legitimidad;
     
     /**
-     * @param args the command line arguments
+     * @param Ejecutar el programa principal.
      */
     public static void main(String[] args) {
         ingresarDatos();
@@ -28,6 +41,9 @@ public class Rebellion {
         System.out.println("Salir");
     }
     
+    /**
+    * Metodo encargado de la validacion del ingreso de los datos al programa.
+    */
     public static void ingresarDatos(){
         Scanner scan=new Scanner(System.in);
         
@@ -97,6 +113,9 @@ public class Rebellion {
          
     }
     
+    /**
+    * Metodo encargado de gestionar el orden de simulacion del programa.
+    */
     public static void salida(){
         int k=0;
         int i=0;
@@ -135,6 +154,9 @@ public class Rebellion {
         }while(k<=maxTurno);
     }
     
+    /**
+    * Metodo que gestiona la inicializacion de variables dentro de la simulacion.
+    */
     public static void iniVar(){
         for (Agente ag:Universo.agenttes){
             ag.verificarEstado();
@@ -144,3 +166,4 @@ public class Rebellion {
         }
     }
 }
+//Fin de la clase.
