@@ -1,30 +1,32 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Rebellion Agent Model. Noviembre, 2017.
+ * Copyright (c) 2017 Angel Encalada.
+ * Escuela Superior Politecnica del Litoral
+ * Todos los derechos reservados.
  */
+
 package rebellion;
-import java.util.ArrayList;
-import java.util.Random;
+
 /**
- *
  * @author Angel Encalada
+ * @param 
  */
+
+//Inicio de la clase
 public class Policia extends Persona {
+    //Posicion de un policia dentro del universo.
     private Posicion posPolicia;
-    private int rango;
     
+    //Constructor 1 de la clase.
     public Policia(int numFil, int numCol, int rango){
         super();
         this.numCol=numCol;
         this.numFil=numFil;
     }
     
+    //Constructor 2 de la clase.
     public Policia(Posicion posPolicia){
         this.posPolicia=posPolicia;
     }
-    
-    private void llenarRango(){
-        
-    }
 }
+//Fin de la clase.
