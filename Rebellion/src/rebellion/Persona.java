@@ -1,18 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Rebellion Agent Model. Noviembre, 2017.
+ * Copyright (c) 2017 Angel Encalada.
+ * Escuela Superior Politecnica del Litoral
+ * Todos los derechos reservados.
  */
+
 package rebellion;
-import java.util.ArrayList;
+
 /**
- *
  * @author Angel Encalada
+ * @param Heredar algunos atributos comunes en los hijos.
  */
+
+//Inicio de la clase
 public abstract class Persona {
+    //Numero de filas del universo.
     int numFil=Rebellion.numFil;
+    //Numero de columnas del universo.
     int numCol=Rebellion.numCol;
-    private int radio=Rebellion.radio;
-    private ArrayList<Posicion> vision;
-    
+    //Radio de vision de los agentes y policias en el universo.
+    int radio=Rebellion.radio;
 }
+//Fin de la clase.
